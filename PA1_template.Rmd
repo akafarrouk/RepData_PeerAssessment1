@@ -10,6 +10,7 @@ output:
 ```{r message=FALSE, warning=FALSE, results='hide'}
 library(tibble)
 library(lubridate)
+library(dplyr)
 ```
 
 ```{r}
@@ -48,8 +49,31 @@ hist(sumofSteps,xlab="sum of steps taken per day",main = "TOTAL STEPS")
 ```
 
 ## What is the average daily activity pattern?
+for this we gonna need ggplot2 
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+```
 
+we aggregate data to make correct plot 
+```{r}
+intr_avg<-activityData %>% 
+    group_by(interval) %>% 
+    mutate(avg=mean(steps,na.rm=TRUE))
+```
 
+we now find which interval has max avg
+```{r}
+intr_avg[which.max(intr_avg$avg),]
+```
+
+and now the plot 
+```{r}
+qplot(intr_avg$interval,intr_avg$avg,geom="line",
+      xlab="interval",
+      ylab="avergae",
+      main="average steps per interval 5-min")
+
+```
 
 ## Imputing missing values
 

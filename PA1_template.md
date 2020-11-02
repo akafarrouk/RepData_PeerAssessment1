@@ -11,6 +11,7 @@ output:
 ```r
 library(tibble)
 library(lubridate)
+library(dplyr)
 ```
 
 
@@ -71,8 +72,44 @@ now we'll plot using base histogram
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ## What is the average daily activity pattern?
+for this we gonna need ggplot2 
 
+```r
+library(ggplot2)
+```
 
+we aggregate data to make correct plot 
+
+```r
+intr_avg<-activityData %>% 
+    group_by(interval) %>% 
+    mutate(avg=mean(steps,na.rm=TRUE))
+```
+
+we now find which interval has max avg
+
+```r
+intr_avg[which.max(intr_avg$avg),]
+```
+
+```
+## # A tibble: 1 x 4
+## # Groups:   interval [1]
+##   steps date       interval   avg
+##   <int> <date>        <int> <dbl>
+## 1    NA 2012-10-01      835  206.
+```
+
+and now the plot 
+
+```r
+qplot(intr_avg$interval,intr_avg$avg,geom="line",
+      xlab="interval",
+      ylab="avergae",
+      main="average steps per interval 5-min")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ## Imputing missing values
 
