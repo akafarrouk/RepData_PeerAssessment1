@@ -36,8 +36,39 @@ head(activityData)
 
 
 ## What is mean total number of steps taken per day?
+We'll first group and count total number of step done each day then report mean and median
 
 
+```r
+sumofSteps<-tapply(activityData$steps,activityData$date,sum,na.rm=TRUE)
+meanstep<-mean(sumofSteps)
+mediansteps<-median(sumofSteps)
+print("mean of steps:")
+print(meanstep)
+print("median of steps:")
+print(mediansteps)
+```
+
+
+```
+## [1] "mean of steps:"
+```
+
+```
+## [1] 9354.23
+```
+
+```
+## [1] "median of steps:"
+```
+
+```
+## [1] 10395
+```
+
+now we'll plot using base histogram
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ## What is the average daily activity pattern?
 

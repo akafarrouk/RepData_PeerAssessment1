@@ -4,4 +4,12 @@ temp<-read.csv("repdata_data_activity/activity.csv",header=TRUE)
 temp<-transform(temp,date=as.Date(date))
 activityData<-tibble::as_tibble(temp)
 
-head(activityData)
+#head(activityData)
+
+sumofSteps<-tapply(activityData$steps,activityData$date,sum,na.rm=TRUE)
+meanstep<-mean(sumofSteps)
+mediansteps<-median(sumofSteps)
+print("mean of steps:")
+print(meanstep)
+print("median of steps:")
+print(mediansteps)
