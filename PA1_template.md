@@ -129,18 +129,8 @@ we can fill missing value by avg of interval that day
 
 
 ```r
-activityDataNa<-transform(activityData,steps=intr_avg$avg)
-head(activityDataNa)
-```
-
-```
-##       steps       date interval
-## 1 1.7169811 2012-10-01        0
-## 2 0.3396226 2012-10-01        5
-## 3 0.1320755 2012-10-01       10
-## 4 0.1509434 2012-10-01       15
-## 5 0.0754717 2012-10-01       20
-## 6 2.0943396 2012-10-01       25
+replacewithmean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
+activityDataNa<-activityData %>% group_by(interval) %>% mutate(steps= replacewithmean(steps)) 
 ```
 
 Calculating and report mean again 
@@ -175,9 +165,12 @@ print(mediansteps)
 now the plot 
 
 ```r
-hist(sumofStepsNA,xlab="sum of steps taken per day",main = "TOTAL STEPS")
+hist(sumofStepsNA,xlab="sum of steps taken per day",main = "TOTAL STEPS",breaks=20)
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+
+we see that chaning and inputing missing data could have a greta impact on value of mean and media!
+
 
 ## Are there differences in activity patterns between weekdays and weekends?
