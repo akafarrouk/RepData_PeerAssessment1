@@ -76,7 +76,43 @@ qplot(intr_avg$interval,intr_avg$avg,geom="line",
 ```
 
 ## Imputing missing values
+Reporting missing value
+```{r}
+missing<-is.na(activityData$steps)
+table(missing)
+```
 
+we can fill missing value by avg of interval that day
+
+```{r}
+activityDataNa<-transform(activityData,steps=intr_avg$avg)
+head(activityDataNa)
+```
+
+Calculating and report mean again 
+```{r results='hide'}
+sumofStepsNA<-tapply(activityDataNa$steps,activityDataNa$date,sum)
+meanstep<-mean(sumofStepsNA)
+mediansteps<-median(sumofStepsNA)
+print("mean of steps:")
+print(meanstep)
+print("median of steps:")
+print(mediansteps)
+```
+
+```{r echo=FALSE}
+print("mean of steps without na:")
+print(meanstep)
+print("median of steps without na:")
+print(mediansteps)
+```
+
+now the plot 
+```{r}
+hist(sumofStepsNA,xlab="sum of steps taken per day",main = "TOTAL STEPS")
+```
+
+we see that chaning and inputing missing data could have a greta impact on value of mean and media!
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

@@ -112,7 +112,72 @@ qplot(intr_avg$interval,intr_avg$avg,geom="line",
 ![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ## Imputing missing values
+Reporting missing value
+
+```r
+missing<-is.na(activityData$steps)
+table(missing)
+```
+
+```
+## missing
+## FALSE  TRUE 
+## 15264  2304
+```
+
+we can fill missing value by avg of interval that day
 
 
+```r
+activityDataNa<-transform(activityData,steps=intr_avg$avg)
+head(activityDataNa)
+```
+
+```
+##       steps       date interval
+## 1 1.7169811 2012-10-01        0
+## 2 0.3396226 2012-10-01        5
+## 3 0.1320755 2012-10-01       10
+## 4 0.1509434 2012-10-01       15
+## 5 0.0754717 2012-10-01       20
+## 6 2.0943396 2012-10-01       25
+```
+
+Calculating and report mean again 
+
+```r
+sumofStepsNA<-tapply(activityDataNa$steps,activityDataNa$date,sum)
+meanstep<-mean(sumofStepsNA)
+mediansteps<-median(sumofStepsNA)
+print("mean of steps:")
+print(meanstep)
+print("median of steps:")
+print(mediansteps)
+```
+
+
+```
+## [1] "mean of steps without na:"
+```
+
+```
+## [1] 10766.19
+```
+
+```
+## [1] "median of steps without na:"
+```
+
+```
+## [1] 10766.19
+```
+
+now the plot 
+
+```r
+hist(sumofStepsNA,xlab="sum of steps taken per day",main = "TOTAL STEPS")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ## Are there differences in activity patterns between weekdays and weekends?
